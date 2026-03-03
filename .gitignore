@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+.venv/
+venv/
+vendor/
+
+# Build artifacts
+*.log
+*.out
+dist/
+build/
+.pytest_cache
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+
+# Temporary
+/docs/
+__unused/
+
+# Binary
+/bun-elysia/index
+/golang-gin/main

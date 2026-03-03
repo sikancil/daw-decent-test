@@ -1,0 +1,69 @@
+# Docker Compose for local development
+# All services use internal port 3000, exposed at different ports
+#
+# Usage:
+#   docker compose up -d   # Start all services
+#   docker compose down     # Stop all services
+#   docker compose logs -f  # View logs
+#   docker compose ps       # List services
+
+services:
+  # Golang Fiber - Port 3081
+  golang-fiber:
+    build:
+      context: ./golang-fiber
+      dockerfile: Dockerfile
+    container_name: api-quest-go
+    ports:
+      - "3081:3000"
+    environment:
+      - PORT=3000
+      - HOST=0.0.0.0
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3000/ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+
+  # Bun ElysiaJS - Port 3082
+  bun-elysia:
+    build:
+      context: ./bun-elysia
+      dockerfile: Dockerfile
+    container_name: api-quest-bun
+    ports:
+      - "3082:3000"
+    environment:
+      - PORT=3000
+      - HOST=0.0.0.0
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3000/ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+
+  # Python FastAPI - Port 3083
+  python-fastapi:
+    build:
+      context: ./python-fastapi
+      dockerfile: Dockerfile
+    container_name: api-quest-python
+    ports:
+      - "3083:3000"
+    environment:
+      - PORT=3000
+      - HOST=0.0.0.0
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3000/ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+
+volumes:
+  # No persistent volumes needed - all use in-memory storage
